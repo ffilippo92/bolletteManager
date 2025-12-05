@@ -1,5 +1,7 @@
 package com.example.bollettemanager.controller;
 
+import com.example.bollettemanager.dto.BillAttachmentDTO;
+import com.example.bollettemanager.dto.BillDetailDTO;
 import com.example.bollettemanager.dto.BillRequestDTO;
 import com.example.bollettemanager.dto.BillResponseDTO;
 import com.example.bollettemanager.enums.BillStatus;
@@ -57,4 +59,55 @@ public class BillController {
             @RequestParam(required = false) BillType type) {
         return billService.searchBills(year, month, provider, status, type);
     }
+
+    @GetMapping("/{billId}/detail")
+    public ResponseEntity<BillDetailDTO> getBillDetail(@PathVariable Long billId) {
+        BillDetailDTO detail = billService.getBillDetail(billId);
+        if (detail == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(detail);
+    }
+
+    @PutMapping("/{billId}/detail")
+    public ResponseEntity<BillDetailDTO> saveOrUpdateBillDetail(
+            @PathVariable Long billId,
+            @RequestBody BillDetailDTO dto) {
+        BillDetailDTO saved = billService.saveOrUpdateBillDetail(billId, dto);
+        return ResponseEntity.ok(saved);
+    }
+
+    @DeleteMapping("/{billId}/detail")
+    public ResponseEntity<Void> deleteBillDetail(@PathVariable Long billId) {
+        billService.deleteBillDetail(billId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{billId}/attachment")
+    public ResponseEntity<BillAttachmentDTO> getBillAttachment(@PathVariable Long billId) {
+        BillAttachmentDTO attachment = billService.getBillAttachment(billId);
+        if (attachment == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(attachment);
+    }
+
+    @PostMapping("/{billId}/attachment")
+    public ResponseEntity<BillAttachmentDTO> saveOrUpdateBillAttachment(
+            @PathVariable Long billId,
+            @RequestBody BillAttachmentDTO dto) {
+        BillAttachmentDTO existing = billService.getBillAttachment(billId);
+        BillAttachmentDTO saved = billService.saveOrUpdateBillAttachment(billId, dto);
+        if (existing == null) {
+            return ResponseEntity.status(201).body(saved);
+        }
+        return ResponseEntity.ok(saved);
+    }
+
+    @DeleteMapping("/{billId}/attachment")
+    public ResponseEntity<Void> deleteBillAttachment(@PathVariable Long billId) {
+        billService.deleteBillAttachment(billId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
