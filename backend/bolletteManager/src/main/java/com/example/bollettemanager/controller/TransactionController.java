@@ -18,6 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Nota Importante:
+ * Transaction operations are automatically scoped to the authenticated user;
+ * nessun user identifier è passato dalle API,
+ * la proprietà quindi è gestita a livello di servizio!.
+ */
+
 @RestController
 @RequestMapping("/api/transactions")
 @RequiredArgsConstructor

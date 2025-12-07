@@ -15,6 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+/**
+ * Nota Importante:
+ * Asset account operations are automatically scoped to the authenticated user;
+ * nessun user identifier è passato dalle API,
+ * la proprietà quindi è gestita a livello di servizio!.
+ */
+
 @RestController
 @RequestMapping("/api/accounts")
 @RequiredArgsConstructor
