@@ -25,9 +25,14 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+        Long userId = null;
+        if (userDetails instanceof com.example.bollettemanager.security.UserDetails customUserDetails) {
+            userId = customUserDetails.getId();
+        }
 
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
+                .claim("userId", userId)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
@@ -36,6 +41,12 @@ public class JwtService {
 
     public String getUsernameFromToken(String token) {
         return getClaims(token).getSubject();
+    }
+
+    public Long getUserIdFromToken(String token) {
+        Claims claims = getClaims(token);
+        Object userId = claims.get("userId");
+        return userId != null ? Long.valueOf(userId.toString()) : null;
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {

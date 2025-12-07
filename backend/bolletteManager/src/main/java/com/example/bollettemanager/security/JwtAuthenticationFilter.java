@@ -37,6 +37,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);
         try {
             String username = jwtService.getUsernameFromToken(token);
+            Long userId = jwtService.getUserIdFromToken(token);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Processing JWT for user: {}, userId: {}", username, userId);
+            }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 org.springframework.security.core.userdetails.UserDetails userDetails =
