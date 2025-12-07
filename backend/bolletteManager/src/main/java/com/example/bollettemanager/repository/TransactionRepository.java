@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
 
@@ -15,4 +16,8 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity, 
     List<TransactionEntity> findByAssetAccountIdAndDateBetween(Long assetAccountId, LocalDate startDate, LocalDate endDate);
 
     List<TransactionEntity> findByCategoryIgnoreCase(String category);
+
+    List<TransactionEntity> findByUserId(Long userId);
+
+    Optional<TransactionEntity> findByIdAndUserId(Long id, Long userId);
 }

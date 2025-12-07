@@ -6,6 +6,7 @@ import com.example.bollettemanager.enums.BillType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BillRepository extends JpaRepository<BillEntity,Long> {
     List<BillEntity> findByBillingYear(Integer billingYear);
@@ -17,4 +18,9 @@ public interface BillRepository extends JpaRepository<BillEntity,Long> {
     List<BillEntity> findByStatus(BillStatus status);
 
     List<BillEntity> findByProviderIgnoreCase(String provider);
+
+    List<BillEntity> findByUserId(Long userId);
+
+    Optional<BillEntity> findByIdAndUserId(Long id, Long userId);
+
 }

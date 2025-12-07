@@ -1,6 +1,4 @@
 package com.example.bollettemanager.entity;
-
-import com.example.bollettemanager.entity.AssetAccountEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +37,10 @@ public class TransactionEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asset_account_id", nullable = false)
     private AssetAccountEntity assetAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
     private String note;
 }

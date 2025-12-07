@@ -5,8 +5,8 @@ import com.example.bollettemanager.enums.BillStatus;
 import com.example.bollettemanager.enums.BillType;
 import com.example.bollettemanager.enums.ConsumptionUnit;
 import com.example.bollettemanager.enums.PaymentMethod;
-import com.example.bollettemanager.entity.BillAttachmentEntity;
-import com.example.bollettemanager.entity.BillDetailEntity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -72,6 +72,11 @@ public class BillEntity {
 
     @Enumerated(EnumType.STRING)
     private ConsumptionUnit consumptionUnit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
 
     @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BillAttachmentEntity> attachments;

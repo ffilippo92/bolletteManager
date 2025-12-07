@@ -6,6 +6,7 @@ import com.example.bollettemanager.enums.Currency;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AssetAccountRepository extends JpaRepository<AssetAccountEntity, Long> {
 
@@ -14,4 +15,8 @@ public interface AssetAccountRepository extends JpaRepository<AssetAccountEntity
     List<AssetAccountEntity> findByType(AccountType type);
 
     List<AssetAccountEntity> findByCurrency(Currency currency);
+
+    List<AssetAccountEntity> findByUserId(Long userId);
+
+    Optional<AssetAccountEntity> findByIdAndUserId(Long id, Long userId);
 }
