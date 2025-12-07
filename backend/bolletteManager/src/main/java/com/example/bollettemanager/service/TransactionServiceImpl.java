@@ -3,8 +3,11 @@ package com.example.bollettemanager.service;
 import com.example.bollettemanager.dto.TransactionDTO;
 import com.example.bollettemanager.entity.AssetAccountEntity;
 import com.example.bollettemanager.entity.TransactionEntity;
+import com.example.bollettemanager.entity.UserEntity;
 import com.example.bollettemanager.repository.AssetAccountRepository;
 import com.example.bollettemanager.repository.TransactionRepository;
+import com.example.bollettemanager.repository.UserRepository;
+import com.example.bollettemanager.security.CurrentUserService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,21 +21,27 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AssetAccountRepository assetAccountRepository;
+    private final UserRepository userRepository;
+    private final CurrentUserService currentUserService;
 
     @Override
     public TransactionDTO createTransaction(TransactionDTO dto) {
-        AssetAccountEntity assetAccount = getAssetAccount(dto.getAssetAccountId());
-        TransactionEntity entity = toEntity(dto, assetAccount);
+        Long currentUserId = currentUserService.getCurrentUserId();
+        UserEntity user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + currentUserId));
+        AssetAccountEntity assetAccount = getAssetAccount(dto.getAssetAccountId(), currentUserId);
+        TransactionEntity entity = toEntity(dto, assetAccount, user);
         TransactionEntity saved = transactionRepository.save(entity);
         return toDto(saved);
     }
 
     @Override
     public TransactionDTO updateTransaction(Long id, TransactionDTO dto) {
-        TransactionEntity existing = transactionRepository.findById(id)
+        Long currentUserId = currentUserService.getCurrentUserId();
+        TransactionEntity existing = transactionRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + id));
 
-        AssetAccountEntity assetAccount = getAssetAccount(dto.getAssetAccountId());
+        AssetAccountEntity assetAccount = getAssetAccount(dto.getAssetAccountId(), currentUserId);
 
         existing.setDate(dto.getDate());
         existing.setDescription(dto.getDescription());
@@ -47,21 +56,24 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void deleteTransaction(Long id) {
-        transactionRepository.findById(id)
+        Long currentUserId = currentUserService.getCurrentUserId();
+        transactionRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + id));
         transactionRepository.deleteById(id);
     }
 
     @Override
     public TransactionDTO getTransactionById(Long id) {
-        TransactionEntity entity = transactionRepository.findById(id)
+        Long currentUserId = currentUserService.getCurrentUserId();
+        TransactionEntity entity = transactionRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + id));
         return toDto(entity);
     }
 
     @Override
     public List<TransactionDTO> getAllTransactions() {
-        return transactionRepository.findAll()
+        Long currentUserId = currentUserService.getCurrentUserId();
+        return transactionRepository.findByUserId(currentUserId)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
@@ -76,7 +88,9 @@ public class TransactionServiceImpl implements TransactionService {
             BigDecimal amountMin,
             BigDecimal amountMax) {
 
-        return transactionRepository.findAll().stream()
+        Long currentUserId = currentUserService.getCurrentUserId();
+
+        return transactionRepository.findByUserId(currentUserId).stream()
                 .filter(transaction -> filterByAssetAccount(transaction, assetAccountId))
                 .filter(transaction -> filterByCategory(transaction, category))
                 .filter(transaction -> filterByDateRange(transaction, dateFrom, dateTo))
@@ -93,8 +107,11 @@ public class TransactionServiceImpl implements TransactionService {
             LocalDate date,
             String description) {
 
-        AssetAccountEntity fromAccount = getAssetAccount(fromAccountId);
-        AssetAccountEntity toAccount = getAssetAccount(toAccountId);
+        Long currentUserId = currentUserService.getCurrentUserId();
+        UserEntity user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + currentUserId));
+        AssetAccountEntity fromAccount = getAssetAccount(fromAccountId, currentUserId);
+        AssetAccountEntity toAccount = getAssetAccount(toAccountId, currentUserId);
 
         BigDecimal absoluteAmount = amount.abs();
         BigDecimal outgoingAmount = absoluteAmount.negate();
@@ -111,6 +128,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .description(outgoingDescription)
                 .amount(outgoingAmount)
                 .assetAccount(fromAccount)
+                .user(user)
                 .build();
 
         TransactionEntity incomingTransaction = TransactionEntity.builder()
@@ -118,6 +136,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .description(incomingDescription)
                 .amount(incomingAmount)
                 .assetAccount(toAccount)
+                .user(user)
                 .build();
 
         transactionRepository.save(outgoingTransaction);
@@ -175,7 +194,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .build();
     }
 
-    private TransactionEntity toEntity(TransactionDTO dto, AssetAccountEntity assetAccount) {
+    private TransactionEntity toEntity(TransactionDTO dto, AssetAccountEntity assetAccount,UserEntity user) {
         return TransactionEntity.builder()
                 .id(dto.getId())
                 .date(dto.getDate())
@@ -187,11 +206,11 @@ public class TransactionServiceImpl implements TransactionService {
                 .build();
     }
 
-    private AssetAccountEntity getAssetAccount(Long id) {
+    private AssetAccountEntity getAssetAccount(Long id,Long currentUserId) {
         if (id == null) {
             throw new RuntimeException("Asset account id cannot be null");
         }
-        return assetAccountRepository.findById(id)
+        return assetAccountRepository.findByIdAndUserId(id,currentUserId)
                 .orElseThrow(() -> new RuntimeException("Asset account not found with id: " + id));
     }
 }
