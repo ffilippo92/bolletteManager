@@ -7,12 +7,16 @@ import com.example.bollettemanager.dto.BillResponseDTO;
 import com.example.bollettemanager.entity.BillAttachmentEntity;
 import com.example.bollettemanager.entity.BillDetailEntity;
 import com.example.bollettemanager.entity.BillEntity;
+import com.example.bollettemanager.entity.UserEntity;
 import com.example.bollettemanager.enums.BillStatus;
 import com.example.bollettemanager.enums.BillType;
 import com.example.bollettemanager.repository.BillAttachmentRepository;
 import com.example.bollettemanager.repository.BillDetailRepository;
 import com.example.bollettemanager.repository.BillRepository;
+import com.example.bollettemanager.repository.UserRepository;
+import com.example.bollettemanager.security.CurrentUserService;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -25,25 +29,29 @@ public class BillServiceImpl implements BillService {
     private final BillRepository billRepository;
     private final BillAttachmentRepository billAttachmentRepository;
     private final BillDetailRepository billDetailRepository;
+    private final CurrentUserService currentUserService;
+    private final UserRepository userRepository;
 
     @Override
     public BillResponseDTO createBill(BillRequestDTO request) {
+        Long currentUserId = currentUserService.getCurrentUserId();
+        UserEntity user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new IllegalStateException("Current user not found"));
         BillEntity entity = toEntity(request);
+        entity.setUser(user);
         BillEntity saved = billRepository.save(entity);
         return toResponse(saved);
     }
 
     @Override
     public BillResponseDTO getBillById(Long id) {
-        BillEntity entity = billRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity entity = getBillForCurrentUser(id);
         return toResponse(entity);
     }
 
     @Override
     public BillResponseDTO updateBill(Long id, BillRequestDTO request) {
-        BillEntity entity = billRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity entity = getBillForCurrentUser(id);
 
         entity.setBillKind(request.getBillKind());
         entity.setType(request.getType());
@@ -67,8 +75,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public void deleteBill(Long id) {
-        BillEntity entity = billRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity entity = getBillForCurrentUser(id);
         billRepository.delete(entity);
     }
 
@@ -81,19 +88,15 @@ public class BillServiceImpl implements BillService {
             BillType type
     ) {
         List<BillEntity> entities;
-        if (year != null && month != null) {
-            entities = billRepository.findByBillingYearAndBillingMonth(year, month);
-        } else if (year != null) {
-            entities = billRepository.findByBillingYear(year);
-        } else if (provider != null) {
-            entities = billRepository.findByProviderIgnoreCase(provider);
-        } else if (status != null) {
-            entities = billRepository.findByStatus(status);
-        } else if (type != null) {
-            entities = billRepository.findByType(type);
-        } else {
-            entities = billRepository.findAll();
-        }
+        Long currentUserId = currentUserService.getCurrentUserId();
+        entities = billRepository.findByUserId(currentUserId).stream()
+                .filter(entity -> year == null || Objects.equals(entity.getBillingYear(), year))
+                .filter(entity -> month == null || Objects.equals(entity.getBillingMonth(), month))
+                .filter(entity -> provider == null || (entity.getProvider() != null
+                        && entity.getProvider().equalsIgnoreCase(provider)))
+                .filter(entity -> status == null || status.equals(entity.getStatus()))
+                .filter(entity -> type == null || type.equals(entity.getType()))
+                .collect(Collectors.toList());
 
         return entities.stream()
                 .map(this::toResponse)
@@ -102,16 +105,14 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public BillDetailDTO getBillDetail(Long billId) {
-        BillEntity bill = billRepository.findById(billId)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity bill = getBillForCurrentUser(billId);
         Optional<BillDetailEntity> detail = billDetailRepository.findByBillId(bill.getId());
         return detail.map(this::toDetailDto).orElse(null);
     }
 
     @Override
     public BillDetailDTO saveOrUpdateBillDetail(Long billId, BillDetailDTO detailDto) {
-        BillEntity bill = billRepository.findById(billId)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity bill = getBillForCurrentUser(billId);
         BillDetailEntity detail = billDetailRepository.findByBillId(bill.getId())
                 .orElseGet(BillDetailEntity::new);
 
@@ -127,16 +128,14 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public void deleteBillDetail(Long billId) {
-        BillEntity bill = billRepository.findById(billId)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity bill = getBillForCurrentUser(billId);
         billDetailRepository.findByBillId(bill.getId())
                 .ifPresent(billDetailRepository::delete);
     }
 
     @Override
     public BillAttachmentDTO getBillAttachment(Long billId) {
-        BillEntity bill = billRepository.findById(billId)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity bill = getBillForCurrentUser(billId);
         List<BillAttachmentEntity> attachments = billAttachmentRepository.findByBillId(bill.getId());
         if (attachments == null || attachments.isEmpty()) {
             return null;
@@ -146,8 +145,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public BillAttachmentDTO saveOrUpdateBillAttachment(Long billId, BillAttachmentDTO attachmentDto) {
-        BillEntity bill = billRepository.findById(billId)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity bill = getBillForCurrentUser(billId);
         List<BillAttachmentEntity> attachments = billAttachmentRepository.findByBillId(bill.getId());
 
         BillAttachmentEntity attachment;
@@ -169,13 +167,19 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public void deleteBillAttachment(Long billId) {
-        BillEntity bill = billRepository.findById(billId)
-                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+        BillEntity bill = getBillForCurrentUser(billId);
         List<BillAttachmentEntity> attachments = billAttachmentRepository.findByBillId(bill.getId());
         if (attachments != null && !attachments.isEmpty()) {
             billAttachmentRepository.delete(attachments.get(0));
         }
     }
+
+    private BillEntity getBillForCurrentUser(Long billId) {
+        Long currentUserId = currentUserService.getCurrentUserId();
+        return billRepository.findByIdAndUserId(billId, currentUserId)
+                .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
+    }
+
 
     private BillEntity toEntity(BillRequestDTO dto) {
         return BillEntity.builder()
