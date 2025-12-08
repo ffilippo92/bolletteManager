@@ -1,0 +1,716 @@
+{
+	"info": {
+		"_postman_id": "e0020b60-4aa2-4db4-92b5-61d99aca747f",
+		"name": "BolletteManager API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50550712",
+		"_collection_link": "https://filippo-forneris92-645155.postman.co/workspace/ee78ae99-f8ec-4ad2-8ab8-b2475c861e71/collection/50550712-e0020b60-4aa2-4db4-92b5-61d99aca747f?action=share&source=collection_link&creator=50550712"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"filippo\",\n  \"email\": \"filippo@example.com\",\n  \"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"usernameOrEmail\": \"filippo\",\n  \"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"oldPassword\": \"Password123!\",\n  \"newPassword\": \"NuovaPassword456!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/{{userId}}/change-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Email",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"newEmail\": \"filippo.new@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/{{userId}}/email",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}",
+								"email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AssetAccount-API",
+			"item": [
+				{
+					"name": "Create Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Conto Corrente Principale\",\n  \"type\": \"BANK_ACCOUNT\",\n  \"currency\": \"EUR\",\n  \"initialBalance\": 1000.0,\n  \"active\": true,\n  \"description\": \"Conto principale per spese quotidiane\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/accounts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/accounts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/accounts/{{accountId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"{{accountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Conto Corrente Principale - Modificato\",\n  \"type\": \"BANK_ACCOUNT\",\n  \"currency\": \"EUR\",\n  \"initialBalance\": 1500.0,\n  \"active\": true,\n  \"description\": \"Aggiornato dopo versamento\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/accounts/{{accountId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"{{accountId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Disable Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/accounts/{{accountId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"{{accountId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction-API",
+			"item": [
+				{
+					"name": "Create Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"assetAccountId\": \"{{accountId}}\",\n  \"amount\": 150.75,\n  \"date\": \"2025-12-07\",\n  \"type\": \"DEBIT\",\n  \"category\": \"UTILITIES\",\n  \"description\": \"Pagamento bolletta gas\",\n  \"notes\": \"Dicembre 2025\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/transactions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/transactions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/transactions/{{transactionId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"{{transactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Transaction",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"assetAccountId\": \"{{accountId}}\",\n  \"amount\": 200.0,\n  \"date\": \"2025-12-08\",\n  \"type\": \"DEBIT\",\n  \"category\": \"OTHER\",\n  \"description\": \"Modifica transazione\",\n  \"notes\": \"Aggiornata\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/transactions/{{transactionId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"{{transactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Transaction",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/transactions/{{transactionId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"{{transactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer Between Accounts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sourceAccountId\": \"{{sourceAccountId}}\",\n  \"destinationAccountId\": \"{{destinationAccountId}}\",\n  \"amount\": 500.0,\n  \"date\": \"2025-12-07\",\n  \"description\": \"Trasferimento risparmi\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/transactions/transfer",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"transactions",
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bill-API",
+			"item": [
+				{
+					"name": "Create Bill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"provider\": \"ENEL\",\n  \"type\": \"ELECTRICITY\",\n  \"issueDate\": \"2025-12-01\",\n  \"dueDate\": \"2025-12-20\",\n  \"amount\": 120.5,\n  \"status\": \"PENDING\",\n  \"notes\": \"Fattura dicembre\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bills",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Bills",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bills",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bill",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bills/{{billId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills",
+								"{{billId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Bill",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"provider\": \"ENEL\",\n  \"type\": \"ELECTRICITY\",\n  \"issueDate\": \"2025-12-01\",\n  \"dueDate\": \"2025-12-20\",\n  \"amount\": 130.0,\n  \"status\": \"PAID\",\n  \"notes\": \"Pagata in ritardo\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bills/{{billId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills",
+								"{{billId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Bill",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bills/{{billId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills",
+								"{{billId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BillDetails-API",
+			"item": [
+				{
+					"name": "Get Bill Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bills/{{billId}}/detail",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills",
+								"{{billId}}",
+								"detail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upsert Bill Detail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"contractNumber\": \"ABC123\",\n  \"supplyAddress\": \"Via Roma 1, Milano\",\n  \"billingPeriodStart\": \"2025-11-01\",\n  \"billingPeriodEnd\": \"2025-11-30\",\n  \"consumptionKwh\": 250,\n  \"notes\": \"Lettura stimata\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bills/{{billId}}/detail",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills",
+								"{{billId}}",
+								"detail"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BillAttachments-API",
+			"item": [
+				{
+					"name": "Upload Bill Attachment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"value": "",
+									"type": "file"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bills/{{billId}}/attachment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills",
+								"{{billId}}",
+								"attachment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bill Attachment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bills/{{billId}}/attachment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bills",
+								"{{billId}}",
+								"attachment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "jwt",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "accountId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "transactionId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "billId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "sourceAccountId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "destinationAccountId",
+			"value": "2",
+			"type": "string"
+		}
+	]
+}
