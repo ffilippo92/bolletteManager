@@ -111,3 +111,8 @@ bollette-manager/
 │  ├─ frontend-design.md
 │  ├─ database-schema.md
 └─ docker-compose.yml
+
+## NOTE FINALI
+
+Per test e revisione lato BackEnd si consiglia di modificare i parametri di collegamento e autenticazione al db sul file "application.properties" di Spring. 
+E' possibile generare un container Docker con il db PostgreSQL e collegarlo al backend.
