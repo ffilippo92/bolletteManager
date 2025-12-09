@@ -220,10 +220,5 @@ Tabelle principali:
 # 10. Stato del backend
 
 La **Fase 1 del backend è completa e stabile**:
-- autenticazione funzionante
-- multiutenza funzionante
-- API CRUD pronte per integrazione frontend
-- test Postman completati
 
-Pronto per iniziare la progettazione del frontend Angular.
 
