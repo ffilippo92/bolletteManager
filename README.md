@@ -1,4 +1,4 @@
-# Bollette Manager v1.0b
+# Bollette Manager v1.0
 
 Applicazione full-stack per la gestione avanzata di bollette, movimenti finanziari e conti, con autenticazione utente, associazione PDF, dettagli bolletta, multi-utenza e salvataggio dati su PostgreSQL.
 
@@ -21,6 +21,7 @@ Applicazione full-stack per la gestione avanzata di bollette, movimenti finanzia
 - Implementare multi-utenza: ogni utente vede solo i propri dati
 - Fornire statistiche e dashboard analitiche (fase frontend)
 
+(Ulteriori funzioni e implementazioni verranno mostrate nel doc sulla versione 2.0 "bolletteManager-implementations")
 ---
 
 ## Funzionalità principali
@@ -79,7 +80,7 @@ Struttura a layer:
 - Upload PDF tramite endpoint dedicato
 
 ### Frontend: Angular (SPA)
-(Da Aggiornare)
+(Da Aggiornare, in fase di sviluppo e progettazione)
 
 ---
 
