@@ -28,6 +28,10 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+        <spotless.version>2.43.0</spotless.version>
+        <googlejavaformat.version>1.22.0</googlejavaformat.version>
+        <maven.checkstyle.version>3.3.1</maven.checkstyle.version>
+        <checkstyle.version>10.17.0</checkstyle.version>
     </properties>
     <dependencies>
         <dependency>
@@ -129,6 +133,65 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.43.0</version>
+
+                <configuration>
+                    <java>
+                        <includes>
+                            <include>src/main/java/**/*.java</include>
+                            <include>src/test/java/**/*.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/target/**</exclude>
+                            <exclude>**/generated/**</exclude>
+                            <exclude>**/build/**</exclude>
+                        </excludes>
+
+                        <googleJavaFormat>
+                            <version>1.29.0</version>
+                        </googleJavaFormat>
+
+                        <removeUnusedImports/>
+                        <trimTrailingWhitespace/>
+                        <endWithNewline/>
+                    </java>
+
+                    <formats>
+                        <format>
+                            <includes>
+                                <include>pom.xml</include>
+                                <include>**/*.md</include>
+                                <include>**/*.yml</include>
+                                <include>**/*.yaml</include>
+                                <include>**/*.properties</include>
+                                <include>**/*.gitignore</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/target/**</exclude>
+                                <exclude>**/build/**</exclude>
+                            </excludes>
+                            <trimTrailingWhitespace/>
+                            <endWithNewline/>
+                        </format>
+                    </formats>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>spotless-check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+
         </plugins>
     </build>
 
