@@ -1,9 +1,9 @@
 package com.example.bollettemanager.controller;
 
-import com.example.bollettemanager.dto.BillAttachmentDTO;
-import com.example.bollettemanager.dto.BillDetailDTO;
-import com.example.bollettemanager.dto.BillRequestDTO;
-import com.example.bollettemanager.dto.BillResponseDTO;
+import com.example.bollettemanager.dto.BillAttachmentDto;
+import com.example.bollettemanager.dto.BillDetailDto;
+import com.example.bollettemanager.dto.BillRequestDto;
+import com.example.bollettemanager.dto.BillResponseDto;
 import com.example.bollettemanager.enums.BillStatus;
 import com.example.bollettemanager.enums.BillType;
 import com.example.bollettemanager.service.BillService;
@@ -33,18 +33,18 @@ public class BillController {
   private final BillService billService;
 
   @PostMapping
-  public BillResponseDTO createBill(@RequestBody @Valid BillRequestDTO request) {
+  public BillResponseDto createBill(@RequestBody @Valid BillRequestDto request) {
     return billService.createBill(request);
   }
 
   @GetMapping("/{id}")
-  public BillResponseDTO getBill(@PathVariable Long id) {
+  public BillResponseDto getBill(@PathVariable Long id) {
     return billService.getBillById(id);
   }
 
   @PutMapping("/{id}")
-  public BillResponseDTO updateBill(
-      @PathVariable Long id, @RequestBody @Valid BillRequestDTO request) {
+  public BillResponseDto updateBill(
+      @PathVariable Long id, @RequestBody @Valid BillRequestDto request) {
     return billService.updateBill(id, request);
   }
 
@@ -55,7 +55,7 @@ public class BillController {
   }
 
   @GetMapping
-  public List<BillResponseDTO> searchBills(
+  public List<BillResponseDto> searchBills(
       @RequestParam(required = false) Integer year,
       @RequestParam(required = false) Integer month,
       @RequestParam(required = false) String provider,
@@ -65,8 +65,8 @@ public class BillController {
   }
 
   @GetMapping("/{billId}/detail")
-  public ResponseEntity<BillDetailDTO> getBillDetail(@PathVariable Long billId) {
-    BillDetailDTO detail = billService.getBillDetail(billId);
+  public ResponseEntity<BillDetailDto> getBillDetail(@PathVariable Long billId) {
+    BillDetailDto detail = billService.getBillDetail(billId);
     if (detail == null) {
       return ResponseEntity.notFound().build();
     }
@@ -74,9 +74,9 @@ public class BillController {
   }
 
   @PutMapping("/{billId}/detail")
-  public ResponseEntity<BillDetailDTO> saveOrUpdateBillDetail(
-      @PathVariable Long billId, @RequestBody BillDetailDTO dto) {
-    BillDetailDTO saved = billService.saveOrUpdateBillDetail(billId, dto);
+  public ResponseEntity<BillDetailDto> saveOrUpdateBillDetail(
+      @PathVariable Long billId, @RequestBody BillDetailDto dto) {
+    BillDetailDto saved = billService.saveOrUpdateBillDetail(billId, dto);
     return ResponseEntity.ok(saved);
   }
 
@@ -87,8 +87,8 @@ public class BillController {
   }
 
   @GetMapping("/{billId}/attachment")
-  public ResponseEntity<BillAttachmentDTO> getBillAttachment(@PathVariable Long billId) {
-    BillAttachmentDTO attachment = billService.getBillAttachment(billId);
+  public ResponseEntity<BillAttachmentDto> getBillAttachment(@PathVariable Long billId) {
+    BillAttachmentDto attachment = billService.getBillAttachment(billId);
     if (attachment == null) {
       return ResponseEntity.notFound().build();
     }
@@ -96,10 +96,10 @@ public class BillController {
   }
 
   @PostMapping("/{billId}/attachment")
-  public ResponseEntity<BillAttachmentDTO> saveOrUpdateBillAttachment(
-      @PathVariable Long billId, @RequestBody BillAttachmentDTO dto) {
-    BillAttachmentDTO existing = billService.getBillAttachment(billId);
-    BillAttachmentDTO saved = billService.saveOrUpdateBillAttachment(billId, dto);
+  public ResponseEntity<BillAttachmentDto> saveOrUpdateBillAttachment(
+      @PathVariable Long billId, @RequestBody BillAttachmentDto dto) {
+    BillAttachmentDto existing = billService.getBillAttachment(billId);
+    BillAttachmentDto saved = billService.saveOrUpdateBillAttachment(billId, dto);
     if (existing == null) {
       return ResponseEntity.status(201).body(saved);
     }

@@ -1,35 +1,35 @@
 package com.example.bollettemanager.service;
 
-import com.example.bollettemanager.dto.BillAttachmentDTO;
-import com.example.bollettemanager.dto.BillDetailDTO;
-import com.example.bollettemanager.dto.BillRequestDTO;
-import com.example.bollettemanager.dto.BillResponseDTO;
+import com.example.bollettemanager.dto.BillAttachmentDto;
+import com.example.bollettemanager.dto.BillDetailDto;
+import com.example.bollettemanager.dto.BillRequestDto;
+import com.example.bollettemanager.dto.BillResponseDto;
 import com.example.bollettemanager.enums.BillStatus;
 import com.example.bollettemanager.enums.BillType;
 import java.util.List;
 
 public interface BillService {
 
-  BillResponseDTO createBill(BillRequestDTO request);
+  BillResponseDto createBill(BillRequestDto request);
 
-  BillResponseDTO getBillById(Long id);
+  BillResponseDto getBillById(Long id);
 
-  BillResponseDTO updateBill(Long id, BillRequestDTO request);
+  BillResponseDto updateBill(Long id, BillRequestDto request);
 
   void deleteBill(Long id);
 
-  List<BillResponseDTO> searchBills(
+  List<BillResponseDto> searchBills(
       Integer year, Integer month, String provider, BillStatus status, BillType type);
 
-  BillDetailDTO getBillDetail(Long billId);
+  BillDetailDto getBillDetail(Long billId);
 
-  BillDetailDTO saveOrUpdateBillDetail(Long billId, BillDetailDTO detailDto);
+  BillDetailDto saveOrUpdateBillDetail(Long billId, BillDetailDto detailDto);
 
   void deleteBillDetail(Long billId);
 
-  BillAttachmentDTO getBillAttachment(Long billId);
+  BillAttachmentDto getBillAttachment(Long billId);
 
-  BillAttachmentDTO saveOrUpdateBillAttachment(Long billId, BillAttachmentDTO attachmentDto);
+  BillAttachmentDto saveOrUpdateBillAttachment(Long billId, BillAttachmentDto attachmentDto);
 
   void deleteBillAttachment(Long billId);
 }

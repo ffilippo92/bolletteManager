@@ -1,6 +1,6 @@
 package com.example.bollettemanager.service;
 
-import com.example.bollettemanager.dto.AssetAccountDTO;
+import com.example.bollettemanager.dto.AssetAccountDto;
 import com.example.bollettemanager.entity.AssetAccountEntity;
 import com.example.bollettemanager.entity.UserEntity;
 import com.example.bollettemanager.repository.AssetAccountRepository;
@@ -20,7 +20,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
   private final CurrentUserService currentUserService;
 
   @Override
-  public AssetAccountDTO createAccount(AssetAccountDTO dto) {
+  public AssetAccountDto createAccount(AssetAccountDto dto) {
     Long currentUserId = currentUserService.getCurrentUserId();
     UserEntity user =
         userRepository
@@ -33,7 +33,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
   }
 
   @Override
-  public AssetAccountDTO updateAccount(Long id, AssetAccountDTO dto) {
+  public AssetAccountDto updateAccount(Long id, AssetAccountDto dto) {
     Long currentUserId = currentUserService.getCurrentUserId();
     AssetAccountEntity entity =
         assetAccountRepository
@@ -59,7 +59,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
   }
 
   @Override
-  public AssetAccountDTO getAccountById(Long id) {
+  public AssetAccountDto getAccountById(Long id) {
     Long currentUserId = currentUserService.getCurrentUserId();
     AssetAccountEntity entity =
         assetAccountRepository
@@ -69,7 +69,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
   }
 
   @Override
-  public List<AssetAccountDTO> getAllAccounts() {
+  public List<AssetAccountDto> getAllAccounts() {
     Long currentUserId = currentUserService.getCurrentUserId();
     return assetAccountRepository.findByUserId(currentUserId).stream()
         .filter(AssetAccountEntity::isActive)
@@ -77,8 +77,8 @@ public class AssetAccountServiceImpl implements AssetAccountService {
         .collect(Collectors.toList());
   }
 
-  private AssetAccountDTO mapToDto(AssetAccountEntity entity) {
-    return AssetAccountDTO.builder()
+  private AssetAccountDto mapToDto(AssetAccountEntity entity) {
+    return AssetAccountDto.builder()
         .id(entity.getId())
         .name(entity.getName())
         .type(entity.getType())
@@ -87,7 +87,7 @@ public class AssetAccountServiceImpl implements AssetAccountService {
         .build();
   }
 
-  private AssetAccountEntity mapToEntity(AssetAccountDTO dto) {
+  private AssetAccountEntity mapToEntity(AssetAccountDto dto) {
     return AssetAccountEntity.builder()
         .id(dto.getId())
         .name(dto.getName())

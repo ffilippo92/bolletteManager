@@ -1,6 +1,6 @@
 package com.example.bollettemanager.controller;
 
-import com.example.bollettemanager.dto.TransactionDTO;
+import com.example.bollettemanager.dto.TransactionDto;
 import com.example.bollettemanager.service.TransactionService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,7 +30,7 @@ public class TransactionController {
   private final TransactionService transactionService;
 
   @GetMapping
-  public ResponseEntity<List<TransactionDTO>> getTransactions(
+  public ResponseEntity<List<TransactionDto>> getTransactions(
       @RequestParam(required = false) Long assetAccountId,
       @RequestParam(required = false) String category,
       @RequestParam(required = false) LocalDate dateFrom,
@@ -46,7 +46,7 @@ public class TransactionController {
             || amountMin != null
             || amountMax != null;
 
-    List<TransactionDTO> transactions =
+    List<TransactionDto> transactions =
         hasFilters
             ? transactionService.searchTransactions(
                 assetAccountId, category, dateFrom, dateTo, amountMin, amountMax)
@@ -56,21 +56,21 @@ public class TransactionController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<TransactionDTO> getTransactionById(@PathVariable Long id) {
-    TransactionDTO transaction = transactionService.getTransactionById(id);
+  public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id) {
+    TransactionDto transaction = transactionService.getTransactionById(id);
     return ResponseEntity.ok(transaction);
   }
 
   @PostMapping
-  public ResponseEntity<TransactionDTO> createTransaction(@RequestBody TransactionDTO dto) {
-    TransactionDTO created = transactionService.createTransaction(dto);
+  public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionDto dto) {
+    TransactionDto created = transactionService.createTransaction(dto);
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<TransactionDTO> updateTransaction(
-      @PathVariable Long id, @RequestBody TransactionDTO dto) {
-    TransactionDTO updated = transactionService.updateTransaction(id, dto);
+  public ResponseEntity<TransactionDto> updateTransaction(
+      @PathVariable Long id, @RequestBody TransactionDto dto) {
+    TransactionDto updated = transactionService.updateTransaction(id, dto);
     return ResponseEntity.ok(updated);
   }
 

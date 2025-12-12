@@ -5,10 +5,6 @@ import com.example.bollettemanager.enums.BillStatus;
 import com.example.bollettemanager.enums.BillType;
 import com.example.bollettemanager.enums.ConsumptionUnit;
 import com.example.bollettemanager.enums.PaymentMethod;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -20,41 +16,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BillRequestDTO {
+public class BillResponseDto {
 
-  @NotNull private BillKind billKind;
+  private Long id;
 
-  @NotNull private BillType type;
-
-  @NotNull
-  @Size(max = 100)
+  private BillKind billKind;
+  private BillType type;
   private String provider;
 
-  @NotNull
-  @Min(1)
-  @Max(12)
   private Integer billingMonth;
-
-  @NotNull private Integer billingYear;
+  private Integer billingYear;
 
   private LocalDate periodStart;
-
   private LocalDate periodEnd;
 
-  @Size(max = 50)
   private String invoiceNumber;
 
-  @NotNull private BigDecimal amount;
+  private BigDecimal amount;
+  private BillStatus status;
 
-  @NotNull private BillStatus status;
-
-  @NotNull private LocalDate dueDate;
-
+  private LocalDate dueDate;
   private LocalDate paymentDate;
 
-  @NotNull private PaymentMethod paymentMethod;
+  private PaymentMethod paymentMethod;
 
   private BigDecimal consumptionValue;
-
   private ConsumptionUnit consumptionUnit;
+
+  private boolean hasAttachment;
 }

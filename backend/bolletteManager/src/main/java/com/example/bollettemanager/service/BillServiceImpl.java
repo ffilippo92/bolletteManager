@@ -1,9 +1,9 @@
 package com.example.bollettemanager.service;
 
-import com.example.bollettemanager.dto.BillAttachmentDTO;
-import com.example.bollettemanager.dto.BillDetailDTO;
-import com.example.bollettemanager.dto.BillRequestDTO;
-import com.example.bollettemanager.dto.BillResponseDTO;
+import com.example.bollettemanager.dto.BillAttachmentDto;
+import com.example.bollettemanager.dto.BillDetailDto;
+import com.example.bollettemanager.dto.BillRequestDto;
+import com.example.bollettemanager.dto.BillResponseDto;
 import com.example.bollettemanager.entity.BillAttachmentEntity;
 import com.example.bollettemanager.entity.BillDetailEntity;
 import com.example.bollettemanager.entity.BillEntity;
@@ -33,7 +33,7 @@ public class BillServiceImpl implements BillService {
   private final UserRepository userRepository;
 
   @Override
-  public BillResponseDTO createBill(BillRequestDTO request) {
+  public BillResponseDto createBill(BillRequestDto request) {
     Long currentUserId = currentUserService.getCurrentUserId();
     UserEntity user =
         userRepository
@@ -46,13 +46,13 @@ public class BillServiceImpl implements BillService {
   }
 
   @Override
-  public BillResponseDTO getBillById(Long id) {
+  public BillResponseDto getBillById(Long id) {
     BillEntity entity = getBillForCurrentUser(id);
     return toResponse(entity);
   }
 
   @Override
-  public BillResponseDTO updateBill(Long id, BillRequestDTO request) {
+  public BillResponseDto updateBill(Long id, BillRequestDto request) {
     BillEntity entity = getBillForCurrentUser(id);
 
     entity.setBillKind(request.getBillKind());
@@ -82,7 +82,7 @@ public class BillServiceImpl implements BillService {
   }
 
   @Override
-  public List<BillResponseDTO> searchBills(
+  public List<BillResponseDto> searchBills(
       Integer year, Integer month, String provider, BillStatus status, BillType type) {
     List<BillEntity> entities;
     Long currentUserId = currentUserService.getCurrentUserId();
@@ -103,14 +103,14 @@ public class BillServiceImpl implements BillService {
   }
 
   @Override
-  public BillDetailDTO getBillDetail(Long billId) {
+  public BillDetailDto getBillDetail(Long billId) {
     BillEntity bill = getBillForCurrentUser(billId);
     Optional<BillDetailEntity> detail = billDetailRepository.findByBillId(bill.getId());
     return detail.map(this::toDetailDto).orElse(null);
   }
 
   @Override
-  public BillDetailDTO saveOrUpdateBillDetail(Long billId, BillDetailDTO detailDto) {
+  public BillDetailDto saveOrUpdateBillDetail(Long billId, BillDetailDto detailDto) {
     BillEntity bill = getBillForCurrentUser(billId);
     BillDetailEntity detail =
         billDetailRepository.findByBillId(bill.getId()).orElseGet(BillDetailEntity::new);
@@ -132,7 +132,7 @@ public class BillServiceImpl implements BillService {
   }
 
   @Override
-  public BillAttachmentDTO getBillAttachment(Long billId) {
+  public BillAttachmentDto getBillAttachment(Long billId) {
     BillEntity bill = getBillForCurrentUser(billId);
     List<BillAttachmentEntity> attachments = billAttachmentRepository.findByBillId(bill.getId());
     if (attachments == null || attachments.isEmpty()) {
@@ -142,8 +142,8 @@ public class BillServiceImpl implements BillService {
   }
 
   @Override
-  public BillAttachmentDTO saveOrUpdateBillAttachment(
-      Long billId, BillAttachmentDTO attachmentDto) {
+  public BillAttachmentDto saveOrUpdateBillAttachment(
+      Long billId, BillAttachmentDto attachmentDto) {
     BillEntity bill = getBillForCurrentUser(billId);
     List<BillAttachmentEntity> attachments = billAttachmentRepository.findByBillId(bill.getId());
 
@@ -180,7 +180,7 @@ public class BillServiceImpl implements BillService {
         .orElseThrow(() -> new IllegalArgumentException("Bill not found"));
   }
 
-  private BillEntity toEntity(BillRequestDTO dto) {
+  private BillEntity toEntity(BillRequestDto dto) {
     return BillEntity.builder()
         .billKind(dto.getBillKind())
         .type(dto.getType())
@@ -200,8 +200,8 @@ public class BillServiceImpl implements BillService {
         .build();
   }
 
-  private BillResponseDTO toResponse(BillEntity entity) {
-    return BillResponseDTO.builder()
+  private BillResponseDto toResponse(BillEntity entity) {
+    return BillResponseDto.builder()
         .id(entity.getId())
         .billKind(entity.getBillKind())
         .type(entity.getType())
@@ -222,8 +222,8 @@ public class BillServiceImpl implements BillService {
         .build();
   }
 
-  private BillDetailDTO toDetailDto(BillDetailEntity entity) {
-    return BillDetailDTO.builder()
+  private BillDetailDto toDetailDto(BillDetailEntity entity) {
+    return BillDetailDto.builder()
         .id(entity.getId())
         .billId(entity.getBill() != null ? entity.getBill().getId() : null)
         .value1Label(entity.getValue1Label())
@@ -232,8 +232,8 @@ public class BillServiceImpl implements BillService {
         .build();
   }
 
-  private BillAttachmentDTO toAttachmentDto(BillAttachmentEntity entity) {
-    return BillAttachmentDTO.builder()
+  private BillAttachmentDto toAttachmentDto(BillAttachmentEntity entity) {
+    return BillAttachmentDto.builder()
         .id(entity.getId())
         .billId(entity.getBill() != null ? entity.getBill().getId() : null)
         .fileName(entity.getFileName())

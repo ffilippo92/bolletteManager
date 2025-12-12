@@ -1,6 +1,6 @@
 package com.example.bollettemanager.service;
 
-import com.example.bollettemanager.dto.TransactionDTO;
+import com.example.bollettemanager.dto.TransactionDto;
 import com.example.bollettemanager.entity.AssetAccountEntity;
 import com.example.bollettemanager.entity.TransactionEntity;
 import com.example.bollettemanager.entity.UserEntity;
@@ -25,7 +25,7 @@ public class TransactionServiceImpl implements TransactionService {
   private final CurrentUserService currentUserService;
 
   @Override
-  public TransactionDTO createTransaction(TransactionDTO dto) {
+  public TransactionDto createTransaction(TransactionDto dto) {
     Long currentUserId = currentUserService.getCurrentUserId();
     UserEntity user =
         userRepository
@@ -38,7 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public TransactionDTO updateTransaction(Long id, TransactionDTO dto) {
+  public TransactionDto updateTransaction(Long id, TransactionDto dto) {
     Long currentUserId = currentUserService.getCurrentUserId();
     TransactionEntity existing =
         transactionRepository
@@ -68,7 +68,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public TransactionDTO getTransactionById(Long id) {
+  public TransactionDto getTransactionById(Long id) {
     Long currentUserId = currentUserService.getCurrentUserId();
     TransactionEntity entity =
         transactionRepository
@@ -78,7 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public List<TransactionDTO> getAllTransactions() {
+  public List<TransactionDto> getAllTransactions() {
     Long currentUserId = currentUserService.getCurrentUserId();
     return transactionRepository.findByUserId(currentUserId).stream()
         .map(this::toDto)
@@ -86,7 +86,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   @Override
-  public List<TransactionDTO> searchTransactions(
+  public List<TransactionDto> searchTransactions(
       Long assetAccountId,
       String category,
       LocalDate dateFrom,
@@ -190,11 +190,11 @@ public class TransactionServiceImpl implements TransactionService {
     return true;
   }
 
-  private TransactionDTO toDto(TransactionEntity entity) {
+  private TransactionDto toDto(TransactionEntity entity) {
     Long assetAccountId =
         entity.getAssetAccount() != null ? entity.getAssetAccount().getId() : null;
 
-    return TransactionDTO.builder()
+    return TransactionDto.builder()
         .id(entity.getId())
         .date(entity.getDate())
         .description(entity.getDescription())
@@ -206,7 +206,7 @@ public class TransactionServiceImpl implements TransactionService {
   }
 
   private TransactionEntity toEntity(
-      TransactionDTO dto, AssetAccountEntity assetAccount, UserEntity user) {
+      TransactionDto dto, AssetAccountEntity assetAccount, UserEntity user) {
     return TransactionEntity.builder()
         .id(dto.getId())
         .date(dto.getDate())

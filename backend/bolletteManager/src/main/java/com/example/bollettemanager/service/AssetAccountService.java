@@ -1,16 +1,16 @@
 package com.example.bollettemanager.service;
 
-import com.example.bollettemanager.dto.AssetAccountDTO;
+import com.example.bollettemanager.dto.AssetAccountDto;
 import java.util.List;
 
 public interface AssetAccountService {
-  AssetAccountDTO createAccount(AssetAccountDTO dto);
+  AssetAccountDto createAccount(AssetAccountDto dto);
 
-  AssetAccountDTO updateAccount(Long id, AssetAccountDTO dto);
+  AssetAccountDto updateAccount(Long id, AssetAccountDto dto);
 
   void disableAccount(Long id);
 
-  AssetAccountDTO getAccountById(Long id);
+  AssetAccountDto getAccountById(Long id);
 
-  List<AssetAccountDTO> getAllAccounts();
+  List<AssetAccountDto> getAllAccounts();
 }

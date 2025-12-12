@@ -1,6 +1,6 @@
 package com.example.bollettemanager.controller;
 
-import com.example.bollettemanager.dto.AssetAccountDTO;
+import com.example.bollettemanager.dto.AssetAccountDto;
 import com.example.bollettemanager.service.AssetAccountService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +27,15 @@ public class AssetAccountController {
   private final AssetAccountService assetAccountService;
 
   @PostMapping
-  public ResponseEntity<AssetAccountDTO> createAccount(@RequestBody AssetAccountDTO dto) {
-    AssetAccountDTO createdAccount = assetAccountService.createAccount(dto);
+  public ResponseEntity<AssetAccountDto> createAccount(@RequestBody AssetAccountDto dto) {
+    AssetAccountDto createdAccount = assetAccountService.createAccount(dto);
     return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<AssetAccountDTO> updateAccount(
-      @PathVariable Long id, @RequestBody AssetAccountDTO dto) {
-    AssetAccountDTO updatedAccount = assetAccountService.updateAccount(id, dto);
+  public ResponseEntity<AssetAccountDto> updateAccount(
+      @PathVariable Long id, @RequestBody AssetAccountDto dto) {
+    AssetAccountDto updatedAccount = assetAccountService.updateAccount(id, dto);
     return ResponseEntity.ok(updatedAccount);
   }
 
@@ -46,14 +46,14 @@ public class AssetAccountController {
   }
 
   @GetMapping
-  public ResponseEntity<List<AssetAccountDTO>> getAllAccounts() {
-    List<AssetAccountDTO> accounts = assetAccountService.getAllAccounts();
+  public ResponseEntity<List<AssetAccountDto>> getAllAccounts() {
+    List<AssetAccountDto> accounts = assetAccountService.getAllAccounts();
     return ResponseEntity.ok(accounts);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<AssetAccountDTO> getAccountById(@PathVariable Long id) {
-    AssetAccountDTO account = assetAccountService.getAccountById(id);
+  public ResponseEntity<AssetAccountDto> getAccountById(@PathVariable Long id) {
+    AssetAccountDto account = assetAccountService.getAccountById(id);
     return ResponseEntity.ok(account);
   }
 }

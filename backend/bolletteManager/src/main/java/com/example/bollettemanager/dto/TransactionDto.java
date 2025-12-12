@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransactionDTO {
+public class TransactionDto {
   private Long id;
   private LocalDate date;
   private String description;

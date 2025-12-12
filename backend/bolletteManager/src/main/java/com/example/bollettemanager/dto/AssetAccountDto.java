@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AssetAccountDTO {
+public class AssetAccountDto {
 
   private Long id;
   private String name;

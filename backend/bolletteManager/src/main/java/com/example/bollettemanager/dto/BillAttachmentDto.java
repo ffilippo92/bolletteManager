@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BillAttachmentDTO {
+public class BillAttachmentDto {
   private Long id;
   private Long billId;
   private String fileName;
