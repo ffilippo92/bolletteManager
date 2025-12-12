@@ -1,4 +1,8 @@
-# BolletteManager – Backend Summary
+# BolletteManager – Backend Summary FASE 1
+
+Nota:
+Le funzionalità esposte qui potrebbero variare rispetto allo svluppo futuro del progetto. Qui sotto verranno riportate le funzionalità base del progetto in fase iniziale di creazione e progettazione.
+Per ulteriori informazioni verificare anche il Markdown backend-sommario per le fasi 2 e 3.
 
 ## Tecnologie principali
 - **Spring Boot 4**
