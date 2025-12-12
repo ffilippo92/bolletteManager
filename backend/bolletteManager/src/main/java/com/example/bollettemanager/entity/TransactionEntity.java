@@ -1,4 +1,5 @@
 package com.example.bollettemanager.entity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,25 +23,25 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TransactionEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private LocalDate date;
+  private LocalDate date;
 
-    private String description;
+  private String description;
 
-    private String category;
+  private String category;
 
-    private BigDecimal amount;
+  private BigDecimal amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asset_account_id", nullable = false)
-    private AssetAccountEntity assetAccount;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "asset_account_id", nullable = false)
+  private AssetAccountEntity assetAccount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private UserEntity user;
 
-    private String note;
+  private String note;
 }

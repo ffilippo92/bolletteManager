@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UpdateEmailDto {
 
-    private String newEmail;
+  private String newEmail;
 }

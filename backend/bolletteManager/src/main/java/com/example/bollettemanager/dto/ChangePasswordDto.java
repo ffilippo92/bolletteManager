@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ChangePasswordDto {
-    private String oldPassword;
-    private String newPassword;
+  private String oldPassword;
+  private String newPassword;
 }

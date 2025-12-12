@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AssetAccountDTO {
 
-    private Long id;
-    private String name;
-    private AccountType type;
-    private Currency currency;
-    private boolean active;
+  private Long id;
+  private String name;
+  private AccountType type;
+  private Currency currency;
+  private boolean active;
 }

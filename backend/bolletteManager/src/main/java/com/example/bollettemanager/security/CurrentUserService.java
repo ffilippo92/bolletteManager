@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class CurrentUserService {
 
-    public Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
-            throw new IllegalStateException("No authenticated user found");
-        }
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return userDetails.getId();
+  public Long getCurrentUserId() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
+      throw new IllegalStateException("No authenticated user found");
     }
+
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    return userDetails.getId();
+  }
 }

@@ -19,124 +19,124 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Nota Importante:
- * Transaction operations are automatically scoped to the authenticated user;
- * nessun user identifier è passato dalle API,
- * la proprietà quindi è gestita a livello di servizio!.
+ * Nota Importante: Transaction operations are automatically scoped to the authenticated user;
+ * nessun user identifier è passato dalle API, la proprietà quindi è gestita a livello di servizio!.
  */
-
 @RestController
 @RequestMapping("/api/transactions")
 @RequiredArgsConstructor
 public class TransactionController {
 
-    private final TransactionService transactionService;
+  private final TransactionService transactionService;
 
-    @GetMapping
-    public ResponseEntity<List<TransactionDTO>> getTransactions(
-            @RequestParam(required = false) Long assetAccountId,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) LocalDate dateFrom,
-            @RequestParam(required = false) LocalDate dateTo,
-            @RequestParam(required = false) BigDecimal amountMin,
-            @RequestParam(required = false) BigDecimal amountMax) {
+  @GetMapping
+  public ResponseEntity<List<TransactionDTO>> getTransactions(
+      @RequestParam(required = false) Long assetAccountId,
+      @RequestParam(required = false) String category,
+      @RequestParam(required = false) LocalDate dateFrom,
+      @RequestParam(required = false) LocalDate dateTo,
+      @RequestParam(required = false) BigDecimal amountMin,
+      @RequestParam(required = false) BigDecimal amountMax) {
 
-        boolean hasFilters = assetAccountId != null
-                || category != null
-                || dateFrom != null
-                || dateTo != null
-                || amountMin != null
-                || amountMax != null;
+    boolean hasFilters =
+        assetAccountId != null
+            || category != null
+            || dateFrom != null
+            || dateTo != null
+            || amountMin != null
+            || amountMax != null;
 
-        List<TransactionDTO> transactions = hasFilters
-                ? transactionService.searchTransactions(
+    List<TransactionDTO> transactions =
+        hasFilters
+            ? transactionService.searchTransactions(
                 assetAccountId, category, dateFrom, dateTo, amountMin, amountMax)
-                : transactionService.getAllTransactions();
+            : transactionService.getAllTransactions();
 
-        return ResponseEntity.ok(transactions);
+    return ResponseEntity.ok(transactions);
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<TransactionDTO> getTransactionById(@PathVariable Long id) {
+    TransactionDTO transaction = transactionService.getTransactionById(id);
+    return ResponseEntity.ok(transaction);
+  }
+
+  @PostMapping
+  public ResponseEntity<TransactionDTO> createTransaction(@RequestBody TransactionDTO dto) {
+    TransactionDTO created = transactionService.createTransaction(dto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<TransactionDTO> updateTransaction(
+      @PathVariable Long id, @RequestBody TransactionDTO dto) {
+    TransactionDTO updated = transactionService.updateTransaction(id, dto);
+    return ResponseEntity.ok(updated);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
+    transactionService.deleteTransaction(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  @PostMapping("/transfer")
+  public ResponseEntity<Void> transferBetweenAccounts(
+      @RequestBody TransferRequest transferRequest) {
+    transactionService.transferBetweenAccounts(
+        transferRequest.getFromAccountId(),
+        transferRequest.getToAccountId(),
+        transferRequest.getAmount(),
+        transferRequest.getDate(),
+        transferRequest.getDescription());
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
+  public static class TransferRequest {
+    private Long fromAccountId;
+    private Long toAccountId;
+    private BigDecimal amount;
+    private LocalDate date;
+    private String description;
+
+    public Long getFromAccountId() {
+      return fromAccountId;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TransactionDTO> getTransactionById(@PathVariable Long id) {
-        TransactionDTO transaction = transactionService.getTransactionById(id);
-        return ResponseEntity.ok(transaction);
+    public void setFromAccountId(Long fromAccountId) {
+      this.fromAccountId = fromAccountId;
     }
 
-    @PostMapping
-    public ResponseEntity<TransactionDTO> createTransaction(@RequestBody TransactionDTO dto) {
-        TransactionDTO created = transactionService.createTransaction(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    public Long getToAccountId() {
+      return toAccountId;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TransactionDTO> updateTransaction(
-            @PathVariable Long id, @RequestBody TransactionDTO dto) {
-        TransactionDTO updated = transactionService.updateTransaction(id, dto);
-        return ResponseEntity.ok(updated);
+    public void setToAccountId(Long toAccountId) {
+      this.toAccountId = toAccountId;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
-        transactionService.deleteTransaction(id);
-        return ResponseEntity.noContent().build();
+    public BigDecimal getAmount() {
+      return amount;
     }
 
-    @PostMapping("/transfer")
-    public ResponseEntity<Void> transferBetweenAccounts(@RequestBody TransferRequest transferRequest) {
-        transactionService.transferBetweenAccounts(
-                transferRequest.getFromAccountId(),
-                transferRequest.getToAccountId(),
-                transferRequest.getAmount(),
-                transferRequest.getDate(),
-                transferRequest.getDescription());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public void setAmount(BigDecimal amount) {
+      this.amount = amount;
     }
 
-    public static class TransferRequest {
-        private Long fromAccountId;
-        private Long toAccountId;
-        private BigDecimal amount;
-        private LocalDate date;
-        private String description;
-
-        public Long getFromAccountId() {
-            return fromAccountId;
-        }
-
-        public void setFromAccountId(Long fromAccountId) {
-            this.fromAccountId = fromAccountId;
-        }
-
-        public Long getToAccountId() {
-            return toAccountId;
-        }
-
-        public void setToAccountId(Long toAccountId) {
-            this.toAccountId = toAccountId;
-        }
-
-        public BigDecimal getAmount() {
-            return amount;
-        }
-
-        public void setAmount(BigDecimal amount) {
-            this.amount = amount;
-        }
-
-        public LocalDate getDate() {
-            return date;
-        }
-
-        public void setDate(LocalDate date) {
-            this.date = date;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
+    public LocalDate getDate() {
+      return date;
     }
+
+    public void setDate(LocalDate date) {
+      this.date = date;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+
+    public void setDescription(String description) {
+      this.description = description;
+    }
+  }
 }

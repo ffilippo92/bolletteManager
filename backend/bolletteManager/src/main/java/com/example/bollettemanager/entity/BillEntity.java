@@ -5,8 +5,6 @@ import com.example.bollettemanager.enums.BillStatus;
 import com.example.bollettemanager.enums.BillType;
 import com.example.bollettemanager.enums.ConsumptionUnit;
 import com.example.bollettemanager.enums.PaymentMethod;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +13,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -34,53 +34,52 @@ import lombok.NoArgsConstructor;
 @Table(name = "bills")
 public class BillEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private BillKind billKind;
+  @Enumerated(EnumType.STRING)
+  private BillKind billKind;
 
-    @Enumerated(EnumType.STRING)
-    private BillType type;
+  @Enumerated(EnumType.STRING)
+  private BillType type;
 
-    private String provider;
+  private String provider;
 
-    private Integer billingMonth;
+  private Integer billingMonth;
 
-    private Integer billingYear;
+  private Integer billingYear;
 
-    private LocalDate periodStart;
+  private LocalDate periodStart;
 
-    private LocalDate periodEnd;
+  private LocalDate periodEnd;
 
-    private String invoiceNumber;
+  private String invoiceNumber;
 
-    private BigDecimal amount;
+  private BigDecimal amount;
 
-    @Enumerated(EnumType.STRING)
-    private BillStatus status;
+  @Enumerated(EnumType.STRING)
+  private BillStatus status;
 
-    private LocalDate dueDate;
+  private LocalDate dueDate;
 
-    private LocalDate paymentDate;
+  private LocalDate paymentDate;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+  @Enumerated(EnumType.STRING)
+  private PaymentMethod paymentMethod;
 
-    private BigDecimal consumptionValue;
+  private BigDecimal consumptionValue;
 
-    @Enumerated(EnumType.STRING)
-    private ConsumptionUnit consumptionUnit;
+  @Enumerated(EnumType.STRING)
+  private ConsumptionUnit consumptionUnit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private UserEntity user;
 
+  @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<BillAttachmentEntity> attachments;
 
-    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BillAttachmentEntity> attachments;
-
-    @OneToOne(mappedBy = "bill", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    private BillDetailEntity detail;
+  @OneToOne(mappedBy = "bill", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+  private BillDetailEntity detail;
 }

@@ -1,6 +1,5 @@
 package com.example.bollettemanager.entity;
 
-import com.example.bollettemanager.entity.BillEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,19 +22,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BillAttachmentEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bill_id", nullable = false)
-    private BillEntity bill;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "bill_id", nullable = false)
+  private BillEntity bill;
 
-    private String fileName;
+  private String fileName;
 
-    private String storagePath;
+  private String storagePath;
 
-    private String contentType;
+  private String contentType;
 
-    private LocalDateTime uploadDate;
+  private LocalDateTime uploadDate;
 }

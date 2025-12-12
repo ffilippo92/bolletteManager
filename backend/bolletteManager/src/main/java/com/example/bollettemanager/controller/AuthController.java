@@ -21,37 +21,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final UserService userService;
-    private final JwtService jwtService;
-    private final UserDetailsServiceImpl userDetailsService;
+  private final UserService userService;
+  private final JwtService jwtService;
+  private final UserDetailsServiceImpl userDetailsService;
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponseDto> register(@RequestBody UserRegistrationDto registrationDto) {
-        UserDto userDto = userService.register(registrationDto);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
-        String token = jwtService.generateToken(userDetails);
+  @PostMapping("/register")
+  public ResponseEntity<AuthResponseDto> register(
+      @RequestBody UserRegistrationDto registrationDto) {
+    UserDto userDto = userService.register(registrationDto);
+    UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
+    String token = jwtService.generateToken(userDetails);
 
-        AuthResponseDto response = AuthResponseDto.builder()
-                .accessToken(token)
-                .tokenType("Bearer")
-                .user(userDto)
-                .build();
+    AuthResponseDto response =
+        AuthResponseDto.builder().accessToken(token).tokenType("Bearer").user(userDto).build();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+  }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody UserLoginRequestDto loginRequestDto) {
-        UserDto userDto = userService.login(loginRequestDto);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
-        String token = jwtService.generateToken(userDetails);
+  @PostMapping("/login")
+  public ResponseEntity<AuthResponseDto> login(@RequestBody UserLoginRequestDto loginRequestDto) {
+    UserDto userDto = userService.login(loginRequestDto);
+    UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
+    String token = jwtService.generateToken(userDetails);
 
-        AuthResponseDto response = AuthResponseDto.builder()
-                .accessToken(token)
-                .tokenType("Bearer")
-                .user(userDto)
-                .build();
+    AuthResponseDto response =
+        AuthResponseDto.builder().accessToken(token).tokenType("Bearer").user(userDto).build();
 
-        return ResponseEntity.ok(response);
-    }
+    return ResponseEntity.ok(response);
+  }
 }

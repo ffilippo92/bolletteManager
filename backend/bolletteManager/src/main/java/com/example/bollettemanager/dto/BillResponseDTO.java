@@ -18,30 +18,30 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BillResponseDTO {
 
-    private Long id;
+  private Long id;
 
-    private BillKind billKind;
-    private BillType type;
-    private String provider;
+  private BillKind billKind;
+  private BillType type;
+  private String provider;
 
-    private Integer billingMonth;
-    private Integer billingYear;
+  private Integer billingMonth;
+  private Integer billingYear;
 
-    private LocalDate periodStart;
-    private LocalDate periodEnd;
+  private LocalDate periodStart;
+  private LocalDate periodEnd;
 
-    private String invoiceNumber;
+  private String invoiceNumber;
 
-    private BigDecimal amount;
-    private BillStatus status;
+  private BigDecimal amount;
+  private BillStatus status;
 
-    private LocalDate dueDate;
-    private LocalDate paymentDate;
+  private LocalDate dueDate;
+  private LocalDate paymentDate;
 
-    private PaymentMethod paymentMethod;
+  private PaymentMethod paymentMethod;
 
-    private BigDecimal consumptionValue;
-    private ConsumptionUnit consumptionUnit;
+  private BigDecimal consumptionValue;
+  private ConsumptionUnit consumptionUnit;
 
-    private boolean hasAttachment;
+  private boolean hasAttachment;
 }

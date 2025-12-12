@@ -10,32 +10,26 @@ import java.util.List;
 
 public interface BillService {
 
-    BillResponseDTO createBill(BillRequestDTO request);
+  BillResponseDTO createBill(BillRequestDTO request);
 
-    BillResponseDTO getBillById(Long id);
+  BillResponseDTO getBillById(Long id);
 
-    BillResponseDTO updateBill(Long id, BillRequestDTO request);
+  BillResponseDTO updateBill(Long id, BillRequestDTO request);
 
-    void deleteBill(Long id);
+  void deleteBill(Long id);
 
-    List<BillResponseDTO> searchBills(
-            Integer year,
-            Integer month,
-            String provider,
-            BillStatus status,
-            BillType type
-    );
+  List<BillResponseDTO> searchBills(
+      Integer year, Integer month, String provider, BillStatus status, BillType type);
 
+  BillDetailDTO getBillDetail(Long billId);
 
-    BillDetailDTO getBillDetail(Long billId);
+  BillDetailDTO saveOrUpdateBillDetail(Long billId, BillDetailDTO detailDto);
 
-    BillDetailDTO saveOrUpdateBillDetail(Long billId, BillDetailDTO detailDto);
+  void deleteBillDetail(Long billId);
 
-    void deleteBillDetail(Long billId);
+  BillAttachmentDTO getBillAttachment(Long billId);
 
-    BillAttachmentDTO getBillAttachment(Long billId);
+  BillAttachmentDTO saveOrUpdateBillAttachment(Long billId, BillAttachmentDTO attachmentDto);
 
-    BillAttachmentDTO saveOrUpdateBillAttachment(Long billId, BillAttachmentDTO attachmentDto);
-
-    void deleteBillAttachment(Long billId);
+  void deleteBillAttachment(Long billId);
 }

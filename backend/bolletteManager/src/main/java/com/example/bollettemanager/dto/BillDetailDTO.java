@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BillDetailDTO {
 
-    private Long id;
+  private Long id;
 
-    private Long billId;
+  private Long billId;
 
-    private String value1Label;
+  private String value1Label;
 
-    private BigDecimal value1Amount;
+  private BigDecimal value1Amount;
 
-    private String notes;
+  private String notes;
 }
