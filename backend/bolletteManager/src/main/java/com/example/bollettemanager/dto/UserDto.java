@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserDto {
 
-    private Long id;
-    private String username;
-    private String email;
-    private Role role;
-    private boolean enabled;
-    private LocalDateTime createdAt;
+  private Long id;
+  private String username;
+  private String email;
+  private Role role;
+  private boolean enabled;
+  private LocalDateTime createdAt;
 }

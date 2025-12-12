@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BillDetailDTO {
+public class BillDetailDto {
 
-    private Long id;
+  private Long id;
 
-    private Long billId;
+  private Long billId;
 
-    private String value1Label;
+  private String value1Label;
 
-    private BigDecimal value1Amount;
+  private BigDecimal value1Amount;
 
-    private String notes;
+  private String notes;
 }

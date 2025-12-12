@@ -20,48 +20,41 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BillRequestDTO {
+public class BillRequestDto {
 
-    @NotNull
-    private BillKind billKind;
+  @NotNull private BillKind billKind;
 
-    @NotNull
-    private BillType type;
+  @NotNull private BillType type;
 
-    @NotNull
-    @Size(max = 100)
-    private String provider;
+  @NotNull
+  @Size(max = 100)
+  private String provider;
 
-    @NotNull
-    @Min(1)
-    @Max(12)
-    private Integer billingMonth;
+  @NotNull
+  @Min(1)
+  @Max(12)
+  private Integer billingMonth;
 
-    @NotNull
-    private Integer billingYear;
+  @NotNull private Integer billingYear;
 
-    private LocalDate periodStart;
+  private LocalDate periodStart;
 
-    private LocalDate periodEnd;
+  private LocalDate periodEnd;
 
-    @Size(max = 50)
-    private String invoiceNumber;
+  @Size(max = 50)
+  private String invoiceNumber;
 
-    @NotNull
-    private BigDecimal amount;
+  @NotNull private BigDecimal amount;
 
-    @NotNull
-    private BillStatus status;
+  @NotNull private BillStatus status;
 
-    @NotNull
-    private LocalDate dueDate;
+  @NotNull private LocalDate dueDate;
 
-    private LocalDate paymentDate;
+  private LocalDate paymentDate;
 
-    @NotNull
-    private PaymentMethod paymentMethod;
+  @NotNull private PaymentMethod paymentMethod;
 
-    private BigDecimal consumptionValue;
+  private BigDecimal consumptionValue;
 
-    private ConsumptionUnit consumptionUnit;
+  private ConsumptionUnit consumptionUnit;
 }

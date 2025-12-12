@@ -8,15 +8,15 @@ import com.example.bollettemanager.dto.UserRegistrationDto;
 
 public interface UserService {
 
-    UserDto register(UserRegistrationDto registrationDto);
+  UserDto register(UserRegistrationDto registrationDto);
 
-    UserDto login(UserLoginRequestDto loginRequestDto);
+  UserDto login(UserLoginRequestDto loginRequestDto);
 
-    UserDto getUserProfile(Long userId);
+  UserDto getUserProfile(Long userId);
 
-    void deleteUser(Long userId);
+  void deleteUser(Long userId);
 
-    void changePassword(Long userId, ChangePasswordDto changePasswordDto);
+  void changePassword(Long userId, ChangePasswordDto changePasswordDto);
 
-    UserDto updateEmail(Long userId, UpdateEmailDto updateEmailDto);
+  UserDto updateEmail(Long userId, UpdateEmailDto updateEmailDto);
 }

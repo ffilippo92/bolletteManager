@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BillAttachmentRepository extends JpaRepository<BillAttachmentEntity, Long> {
 
-    List<BillAttachmentEntity> findByBillId(Long billId);
+  List<BillAttachmentEntity> findByBillId(Long billId);
 
-    Optional<BillAttachmentEntity> findFirstByBillIdOrderByUploadDateDesc(Long billId);
+  Optional<BillAttachmentEntity> findFirstByBillIdOrderByUploadDateDesc(Long billId);
 }

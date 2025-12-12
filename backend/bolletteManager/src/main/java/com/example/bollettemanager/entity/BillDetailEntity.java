@@ -1,6 +1,5 @@
 package com.example.bollettemanager.entity;
 
-import com.example.bollettemanager.entity.BillEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,17 +22,17 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BillDetailEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bill_id", unique = true)
-    private BillEntity bill;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "bill_id", unique = true)
+  private BillEntity bill;
 
-    private String value1Label;
+  private String value1Label;
 
-    private BigDecimal value1Amount;
+  private BigDecimal value1Amount;
 
-    private String notes;
+  private String notes;
 }

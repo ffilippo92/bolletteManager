@@ -1,6 +1,6 @@
 package com.example.bollettemanager.controller;
 
-import com.example.bollettemanager.dto.AssetAccountDTO;
+import com.example.bollettemanager.dto.AssetAccountDto;
 import com.example.bollettemanager.service.AssetAccountService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,49 +15,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
- * Nota Importante:
- * Asset account operations are automatically scoped to the authenticated user;
- * nessun user identifier è passato dalle API,
- * la proprietà quindi è gestita a livello di servizio!.
+ * Nota Importante: Asset account operations are automatically scoped to the authenticated user;
+ * nessun user identifier è passato dalle API, la proprietà quindi è gestita a livello di servizio!.
  */
-
 @RestController
 @RequestMapping("/api/accounts")
 @RequiredArgsConstructor
 public class AssetAccountController {
 
-    private final AssetAccountService assetAccountService;
+  private final AssetAccountService assetAccountService;
 
-    @PostMapping
-    public ResponseEntity<AssetAccountDTO> createAccount(@RequestBody AssetAccountDTO dto) {
-        AssetAccountDTO createdAccount = assetAccountService.createAccount(dto);
-        return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
-    }
+  @PostMapping
+  public ResponseEntity<AssetAccountDto> createAccount(@RequestBody AssetAccountDto dto) {
+    AssetAccountDto createdAccount = assetAccountService.createAccount(dto);
+    return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AssetAccountDTO> updateAccount(
-            @PathVariable Long id, @RequestBody AssetAccountDTO dto) {
-        AssetAccountDTO updatedAccount = assetAccountService.updateAccount(id, dto);
-        return ResponseEntity.ok(updatedAccount);
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<AssetAccountDto> updateAccount(
+      @PathVariable Long id, @RequestBody AssetAccountDto dto) {
+    AssetAccountDto updatedAccount = assetAccountService.updateAccount(id, dto);
+    return ResponseEntity.ok(updatedAccount);
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> disableAccount(@PathVariable Long id) {
-        assetAccountService.disableAccount(id);
-        return ResponseEntity.noContent().build();
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> disableAccount(@PathVariable Long id) {
+    assetAccountService.disableAccount(id);
+    return ResponseEntity.noContent().build();
+  }
 
-    @GetMapping
-    public ResponseEntity<List<AssetAccountDTO>> getAllAccounts() {
-        List<AssetAccountDTO> accounts = assetAccountService.getAllAccounts();
-        return ResponseEntity.ok(accounts);
-    }
+  @GetMapping
+  public ResponseEntity<List<AssetAccountDto>> getAllAccounts() {
+    List<AssetAccountDto> accounts = assetAccountService.getAllAccounts();
+    return ResponseEntity.ok(accounts);
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AssetAccountDTO> getAccountById(@PathVariable Long id) {
-        AssetAccountDTO account = assetAccountService.getAccountById(id);
-        return ResponseEntity.ok(account);
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<AssetAccountDto> getAccountById(@PathVariable Long id) {
+    AssetAccountDto account = assetAccountService.getAccountById(id);
+    return ResponseEntity.ok(account);
+  }
 }
