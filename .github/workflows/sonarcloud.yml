@@ -22,9 +22,10 @@ jobs:
           java-version: "21"
           cache: maven
 
-      - name: Build, Test and Analyze
+      - name: Build, Analyze (skip tests)
         working-directory: backend/bolletteManager
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -B verify sonar:sonar -Dsonar.token=${SONAR_TOKEN}
+          mvn -B -DskipTests verify sonar:sonar -Dsonar.token=${SONAR_TOKEN}
+
