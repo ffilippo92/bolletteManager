@@ -16,13 +16,6 @@ Il repository non è più gestito lavorando direttamente su `main`, ma viene sud
 
 Ogni nuova attività viene sviluppata partendo da `develop`, creando una branch `feature/*`. Una volta completata e verificata la funzionalità (build, test, controlli di qualità), il codice viene reintegrato in `develop`. Al termine di una fase significativa di lavoro, `develop` viene infine allineato a `main`.
 
-Questa modalità consente di:
-
-* isolare lo sviluppo delle funzionalità
-* ridurre il rischio di regressioni
-* avere una storia Git chiara e leggibile
-* preparare il progetto a CI/CD e a un contesto multi-sviluppatore
-
 ---
 
 ## FASE 2 – Qualità del codice, test e automazione
@@ -93,9 +86,6 @@ La Fase 3 introduce aspetti avanzati di osservabilità e deploy, con l’obietti
 * `ARCHITECTURE.md`
 * `OBSERVABILITY.md`
 * `DEVOPS-PIPELINE.md`
-* `ROADMAP-2025.md`
-* Cartella `presentation-material` per slide e materiale di esposizione
 
 ---
 
-Questo documento rappresenta la roadmap tecnica delle fasi successive del backend BolletteManager e funge da riferimento operativo per lo sviluppo, la validazione e la presentazione del progetto.
